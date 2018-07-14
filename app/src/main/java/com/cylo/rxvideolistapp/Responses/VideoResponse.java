@@ -1,4 +1,4 @@
-package com.cylo.rxvideolistapp.Objects;
+package com.cylo.rxvideolistapp.Responses;
 
 import com.cylo.rxvideolistapp.Objects.Video;
 

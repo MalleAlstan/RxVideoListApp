@@ -3,13 +3,20 @@ package com.cylo.rxvideolistapp.Activities;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.cylo.rxvideolistapp.APIs.VideoApi;
+import com.cylo.rxvideolistapp.Adapters.VideoAdapter;
 import com.cylo.rxvideolistapp.Objects.Video;
-import com.cylo.rxvideolistapp.Objects.VideoResponse;
+import com.cylo.rxvideolistapp.R;
+import com.cylo.rxvideolistapp.Responses.VideoResponse;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -24,15 +31,22 @@ public class MainActivity extends AppCompatActivity {
     // you may put other params with annotations in the API Interface to easily create different api calls
     private static String BASE_URL = "http://www.izaodao.com/";
     private String TAG = "john-rx";
+    private ArrayList<Video> mVideosList;
+    private RecyclerView mRecyclerView;
+    private VideoAdapter mVideoAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        getVideoList();
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mVideosList = new ArrayList<Video>();
+
+        showVideoList();
     }
 
-    private void getVideoList(){
+    private void showVideoList(){
 
         // build up retrofit (add Url, Gson Factory and RxJava Adapter)
         Retrofit retrofit = new Retrofit.Builder()
@@ -54,9 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
                     // print the response results and video detail in log
                     if(bean.getRet() == 1){
+                        List<Video> videos = bean.getData();
                         Log.d("tag", "onResponse result " + bean.getMsg());
-                        List<Video> data = bean.getData();
-                        for(Video video : data){
+                        for(Video video : videos){
+                            mVideosList.add(video);
                             Log.d(TAG, "id: " + video.getId() +
                                     "  name: " + video.getName() +
                                     "  title: " + video.getTitle());
@@ -64,6 +79,14 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "------------------------------------------------------------");
                         }
                     }
+
+                    mVideoAdapter = new VideoAdapter(mVideosList);
+                    mRecyclerView.setLayoutManager(new LinearLayoutManager
+                            (this, LinearLayoutManager.VERTICAL, false));
+                    mRecyclerView.addItemDecoration(new DividerItemDecoration
+                            (this, DividerItemDecoration.VERTICAL));
+                    mRecyclerView.setItemAnimator( new DefaultItemAnimator());
+                    mRecyclerView.setAdapter(mVideoAdapter);
 
                 },onError->{
                     Log.i(TAG, "onError:" + onError.getMessage());
