@@ -39,5 +39,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_media_play" />
 
-
 </android.support.constraint.ConstraintLayout>

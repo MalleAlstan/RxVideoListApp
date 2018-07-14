@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    mVideoAdapter = new VideoAdapter(mVideosList);
+                    mVideoAdapter = new VideoAdapter(this, mVideosList);
                     mRecyclerView.setLayoutManager(new LinearLayoutManager
                             (this, LinearLayoutManager.VERTICAL, false));
                     mRecyclerView.addItemDecoration(new DividerItemDecoration
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     mRecyclerView.setItemAnimator( new DefaultItemAnimator());
                     mRecyclerView.setAdapter(mVideoAdapter);
 
-                },onError->{
+                },onError-> {
                     Log.i(TAG, "onError:" + onError.getMessage());
                 });
     }
