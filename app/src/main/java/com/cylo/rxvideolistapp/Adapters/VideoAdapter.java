@@ -1,6 +1,7 @@
 package com.cylo.rxvideolistapp.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cylo.rxvideolistapp.Activities.MainActivity;
+import com.cylo.rxvideolistapp.Activities.VideoActivity;
+import com.cylo.rxvideolistapp.Objects.RxBus;
 import com.cylo.rxvideolistapp.Objects.Video;
 import com.cylo.rxvideolistapp.R;
 import com.jakewharton.rxbinding.view.RxView;
@@ -67,6 +69,9 @@ public class VideoAdapter extends RecyclerView.Adapter{
                         Toast.makeText(mContext,
                                 mVideos.get(getAdapterPosition()).getTitle() + " is chosen.",
                                 Toast.LENGTH_SHORT).show();
+
+                        RxBus.publish(mVideos.get(getAdapterPosition()));
+                        mContext.startActivity(new Intent(mContext, VideoActivity.class));
                     });
         }
     }

@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.cylo.rxvideolistapp.APIs.VideoApi;
 import com.cylo.rxvideolistapp.Adapters.VideoAdapter;
@@ -27,8 +28,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    // url (scheme + host), must end with a "/" which can only be scheme + host
-    // you may put other params with annotations in the API Interface to easily create different api calls
+    // url (scheme + host), must end with a "/" which can only contains scheme + host
+    // you may put other params with annotations in the API Interface to create different api calls
     private static String BASE_URL = "http://www.izaodao.com/";
     private String TAG = "john-rx";
     private ArrayList<Video> mVideosList;
@@ -56,30 +57,17 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         VideoApi videoApi = retrofit.create(VideoApi.class);
 
-        // Observable getting from api
         Observable<VideoResponse> observable = videoApi.getAllVideoBy(true);
-
-        // giving the working thread for api calling via scheduler
-        observable.subscribeOn(Schedulers.io())
+        observable.subscribeOn(Schedulers.io())                      // Set threads for calling api and response via scheduler
                 .observeOn(AndroidSchedulers.mainThread())
-
-                // subscription on the returning data of api (printing result in the log)
-                .subscribe(bean -> {
-
-                    // print the response results and video detail in log
+                .subscribe(bean -> {                                 // Subscribe the returning data from API (add to list)
                     if(bean.getRet() == 1){
                         List<Video> videos = bean.getData();
-                        Log.d("tag", "onResponse result " + bean.getMsg());
                         for(Video video : videos){
                             mVideosList.add(video);
-                            Log.d(TAG, "id: " + video.getId() +
-                                    "  name: " + video.getName() +
-                                    "  title: " + video.getTitle());
-                            Log.d(TAG, "url: " + video.getUrl());
-                            Log.d(TAG, "------------------------------------------------------------");
                         }
                     }
-
+                    // Handling RecyclerView
                     mVideoAdapter = new VideoAdapter(this, mVideosList);
                     mRecyclerView.setLayoutManager(new LinearLayoutManager
                             (this, LinearLayoutManager.VERTICAL, false));
