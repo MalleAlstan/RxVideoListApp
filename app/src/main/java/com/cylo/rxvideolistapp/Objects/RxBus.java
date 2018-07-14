@@ -14,6 +14,7 @@ public final class RxBus {
     public static Disposable subscribe(@NonNull Consumer<Object> action) {
         return behaviorSubject.subscribe(action);
     }
+
     // method of sending data
     public static void publish(@NonNull Object message) {
         behaviorSubject.onNext(message);

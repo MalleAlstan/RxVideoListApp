@@ -1,10 +1,8 @@
 package com.cylo.rxvideolistapp.Activities;
 
 import android.net.Uri;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.VideoView;
 
 import com.cylo.rxvideolistapp.Objects.RxBus;
@@ -27,13 +25,14 @@ public class VideoActivity extends AppCompatActivity {
         showVideo();
     }
 
-    private void showVideo(){
+    private void showVideo() {
 
+        // Receive and handle Video Object from RxBus
         RxBus.subscribe(new Consumer<Object>() {
             @Override
             public void accept(Object o) throws Exception {
-                getSupportActionBar().setTitle("Lesson " + ((Video)o).getId() + " - " + ((Video)o).getTitle());
-                mVideo.setVideoURI(Uri.parse(((Video)o).getUrl()));
+                getSupportActionBar().setTitle("Lesson " + ((Video) o).getId() + " - " + ((Video) o).getTitle());
+                mVideo.setVideoURI(Uri.parse(((Video) o).getUrl()));
                 mVideo.start();
             }
         });

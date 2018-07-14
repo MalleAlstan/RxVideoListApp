@@ -19,12 +19,12 @@ import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.ArrayList;
 
-public class VideoAdapter extends RecyclerView.Adapter{
+public class VideoAdapter extends RecyclerView.Adapter {
 
     private ArrayList<Video> mVideos;
     private Context mContext;
 
-    public VideoAdapter(Context context, ArrayList<Video> videos){
+    public VideoAdapter(Context context, ArrayList<Video> videos) {
         mContext = context;
         mVideos = videos;
     }
@@ -70,6 +70,7 @@ public class VideoAdapter extends RecyclerView.Adapter{
                                 mVideos.get(getAdapterPosition()).getTitle() + " is chosen.",
                                 Toast.LENGTH_SHORT).show();
 
+                        // pass selected video to VideoActivity via RxBus
                         RxBus.publish(mVideos.get(getAdapterPosition()));
                         mContext.startActivity(new Intent(mContext, VideoActivity.class));
                     });

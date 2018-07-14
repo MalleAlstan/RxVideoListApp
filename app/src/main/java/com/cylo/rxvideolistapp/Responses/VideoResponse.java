@@ -2,13 +2,15 @@ package com.cylo.rxvideolistapp.Responses;
 
 import com.cylo.rxvideolistapp.Objects.Video;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VideoResponse {
 
-    private int ret;
-    private String msg;
-    private List<Video> data;
+    // Add needed variables from Json data
+    private int ret = -1;
+    private String msg = "";
+    private ArrayList<Video> data;
 
     public int getRet() {
         return ret;
@@ -26,11 +28,11 @@ public class VideoResponse {
         this.msg = msg;
     }
 
-    public List<Video> getData() {
+    public ArrayList<Video> getData() {
         return data;
     }
 
-    public void setData(List<Video> data) {
+    public void setData(ArrayList<Video> data) {
         this.data = data;
     }
 

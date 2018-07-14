@@ -2,11 +2,11 @@ package com.cylo.rxvideolistapp.Objects;
 
 public class Video {
 
-    // Add needed variables in Object for Gson Factory to automatically fit in from Json format response
-    private int id;
-    private String name;
-    private String title;
-    private String url;
+    // Add needed variables from Json data
+    private int id = -1;
+    private String name = "";
+    private String title = "";
+    private String url = "";
 
     public int getId() {
         return id;
