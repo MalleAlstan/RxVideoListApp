@@ -1,4 +1,6 @@
-package com.cylo.rxvideolistapp;
+package com.cylo.rxvideolistapp.Objects;
+
+import com.cylo.rxvideolistapp.Objects.Video;
 
 import java.util.List;
 

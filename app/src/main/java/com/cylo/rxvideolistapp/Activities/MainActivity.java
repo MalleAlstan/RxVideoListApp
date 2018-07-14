@@ -1,10 +1,13 @@
-package com.cylo.rxvideolistapp;
+package com.cylo.rxvideolistapp.Activities;
 
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.cylo.rxvideolistapp.APIs.VideoApi;
+import com.cylo.rxvideolistapp.Objects.Video;
+import com.cylo.rxvideolistapp.Objects.VideoResponse;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.List;
@@ -17,7 +20,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String BASE_URL = "http://www.izaodao.com/Api/";
+    // url (scheme + host), must end with a "/" which can only be scheme + host
+    // you may put other params with annotations in the API Interface to easily create different api calls
+    private static String BASE_URL = "http://www.izaodao.com/";
     private String TAG = "john-rx";
 
     @Override
@@ -27,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
         getVideoList();
     }
 
-    public void getVideoList(){
+    private void getVideoList(){
 
-        // build up retrofit (add Url, Gson Converter and RxJava Adapter)
+        // build up retrofit (add Url, Gson Factory and RxJava Adapter)
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -47,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 // subscription on the returning data of api (printing result in the log)
                 .subscribe(bean -> {
 
-                    // if response OK, print the response results and video detail in log
+                    // print the response results and video detail in log
                     if(bean.getRet() == 1){
                         Log.d("tag", "onResponse result " + bean.getMsg());
                         List<Video> data = bean.getData();
@@ -64,5 +69,4 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "onError:" + onError.getMessage());
                 });
     }
-
 }
